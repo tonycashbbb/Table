@@ -1,0 +1,8 @@
+table {
+    background-color: #f4f4f4;
+}
+
+table thead {
+    font-weight: bold;
+    outline: 1px solid black;
+}
