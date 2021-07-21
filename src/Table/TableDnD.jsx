@@ -1,7 +1,8 @@
 import React from 'react'
 import {DragDropContext, Draggable, Droppable} from "react-beautiful-dnd";
-import {Checkbox, TableBody, TableCell, TableRow} from "@material-ui/core";
+import {TableBody, TableCell, TableRow} from "@material-ui/core";
 import DragHandleIcon from "@material-ui/icons/DragHandle";
+import PropTypes from "prop-types";
 
 export const DroppableComponent = (onDragEnd) => (props) => {
   return (
@@ -18,27 +19,26 @@ export const DroppableComponent = (onDragEnd) => (props) => {
   )
 }
 
-export const DraggableComponent = (rowId, index, selectedRows, onCheckboxChange) => (props) => {
-  const isSelected = selectedRows.includes(rowId)
+DroppableComponent.propTypes = {
+  onDragEnd: PropTypes.func.isRequired,
+}
 
+export const DraggableComponent = (rowId, index) => (props) => {
   return (
     <Draggable key={`table-row-${rowId}`} draggableId={rowId} index={index}>
       {(provided) => (
-        <TableRow ref={provided.innerRef} {...provided.draggableProps} >
+        <TableRow ref={provided.innerRef} {...provided.draggableProps}>
           <TableCell key={`table-cell-dnd`} {...provided.dragHandleProps}>
             <DragHandleIcon/>
-          </TableCell>
-          <TableCell padding="checkbox">
-            <Checkbox
-              color={"primary"}
-              value={rowId}
-              checked={isSelected}
-              onChange={() => onCheckboxChange(rowId)}
-            />
           </TableCell>
           {props.children}
         </TableRow>
       )}
     </Draggable>
   )
+}
+
+DraggableComponent.propTypes = {
+  rowId: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired
 }
